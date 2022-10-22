@@ -1,4 +1,4 @@
-module eztools
+module github.github.com/loebfly/eztools
 
 go 1.17
 
