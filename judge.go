@@ -17,7 +17,7 @@ func (receiver judge[T]) IfThen(condition bool, trueVal T) T {
 	if condition {
 		return trueVal
 	}
-	return any(nil)
+	return any(nil).(T)
 }
 
 func (receiver judge[T]) IfThenElse(condition bool, trueVal T, falseVal T) T {
