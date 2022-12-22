@@ -169,7 +169,7 @@ func (t Time) Value() (driver.Value, error) {
 	return time.Time(t), nil
 }
 
-func (t *Time) Scan(v interface{}) error {
+func (t *Time) Scan(v any) error {
 	value, ok := v.(time.Time)
 	if ok {
 		*t = Time(value)
@@ -178,7 +178,7 @@ func (t *Time) Scan(v interface{}) error {
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
 
-func (t Time) GetBSON() (interface{}, error) {
+func (t Time) GetBSON() (any, error) {
 	return time.Time(t).UnixMilli(), nil
 }
 

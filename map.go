@@ -8,25 +8,25 @@ import (
 // Map 转换为可操作对象
 /*
 	使用说明:
-		1. IsExist(key interface{}) 判断map是否存在某个key
-		2. IsNil(key interface{}) 判断map的值是否为空
+		1. IsExist(key any) 判断map是否存在某个key
+		2. IsNil(key any) 判断map的值是否为空
 		3. Len() 获取map的长度
-		4. ForEach(fn func(key, value interface{})) 遍历map
+		4. ForEach(fn func(key, value any)) 遍历map
 */
-func Map(v interface{}) *mapT {
+func Map(v any) *mapT {
 	return &mapT{v}
 }
 
 type mapT struct {
-	obj interface{}
+	obj any
 }
 
-func (receiver *mapT) OriVal() interface{} {
+func (receiver *mapT) OriVal() any {
 	return receiver.obj
 }
 
 // IsExist 判断map是否存在某个key
-func (receiver *mapT) IsExist(key interface{}) bool {
+func (receiver *mapT) IsExist(key any) bool {
 	v := reflect.ValueOf(receiver.OriVal())
 	switch v.Kind() {
 	case reflect.Map:
@@ -42,7 +42,7 @@ func (receiver *mapT) IsExist(key interface{}) bool {
 }
 
 // IsNil 判断map的值是否为空
-func (receiver *mapT) IsNil(key interface{}) bool {
+func (receiver *mapT) IsNil(key any) bool {
 	v := reflect.ValueOf(receiver.OriVal())
 	switch v.Kind() {
 	case reflect.Map:
@@ -64,7 +64,7 @@ func (receiver *mapT) Len() int {
 }
 
 // ForEach 遍历map
-func (receiver *mapT) ForEach(fn func(key, value interface{})) {
+func (receiver *mapT) ForEach(fn func(key, value any)) {
 	v := reflect.ValueOf(receiver.OriVal())
 	switch v.Kind() {
 	case reflect.Map:

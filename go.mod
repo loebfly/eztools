@@ -1,6 +1,6 @@
 module github.com/loebfly/eztools
 
-go 1.17
+go 1.19
 
 require (
 	github.com/gofrs/uuid v4.3.0+incompatible
