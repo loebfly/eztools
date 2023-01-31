@@ -4,6 +4,29 @@ import (
 	"reflect"
 )
 
+// StructToQuery 结构体转换为query参数
+func StructToQuery(obj any, tag string) map[string]string {
+	var (
+		result = make(map[string]string)
+	)
+
+	if obj == nil {
+		return result
+	}
+
+	objValue := reflect.ValueOf(obj).Elem()
+
+	for i := 0; i < objValue.NumField(); i++ {
+		key := objValue.Type().Field(i).Tag.Get(tag)
+		if key == "" {
+			continue
+		}
+		result[key] = Any(objValue.Field(i).Interface()).ToString()
+	}
+
+	return result
+}
+
 // CopyStruct 结构体复制, 忽略空值，暂不支持结构体内部map复制（有需要可扩展）
 func CopyStruct[DST any](src any) DST {
 	var dst DST
@@ -58,9 +81,9 @@ func copyStructRecursive(src, dst interface{}) {
 				continue
 			}
 			dstFieldByName.Set(reflect.MakeSlice(dstFieldByName.Type(), srcField.Len(), srcField.Cap()))
-			for i := 0; i < srcField.Len(); i++ {
-				srcInterface := srcField.Index(i).Addr().Interface()
-				dstInterface := dstFieldByName.Index(i).Addr().Interface()
+			for j := 0; j < srcField.Len(); j++ {
+				srcInterface := srcField.Index(j).Addr().Interface()
+				dstInterface := dstFieldByName.Index(j).Addr().Interface()
 				copyStructRecursive(srcInterface, dstInterface)
 			}
 		case reflect.Struct:
