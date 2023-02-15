@@ -61,10 +61,6 @@ func CopyStructTo(dst any, src any) {
 func copyStructRecursive(src, dst interface{}) {
 	dstValue := reflect.ValueOf(dst).Elem()
 	srcValue := reflect.ValueOf(src).Elem()
-	if srcValue.Type() == dstValue.Type() && dstValue.CanSet() {
-		dstValue.Set(srcValue)
-		return
-	}
 
 	for i := 0; i < srcValue.NumField(); i++ {
 		srcField := srcValue.Field(i)
