@@ -1,79 +1,67 @@
 package eztools
 
-import (
-	"fmt"
-	"reflect"
-)
-
-// Array 转换为可操作对象
-/*
-	使用说明:
-		1. IsExist(value any) 判断切片是否存在某个值
-		2. IsNil(index int) 判断切片是否为空
-		3. Len() 获取切片的长度
-		4. ForEach(fn func(index int)) 遍历切片
-*/
-func Array(v any) *array {
-	return &array{v}
+// ConvArray 切片类型转换
+func ConvArray[SRC, DST any](srcArr []SRC, dstArr []DST, fn func(src SRC) DST) {
+	for i := 0; i < len(srcArr); i++ {
+		dstArr = append(dstArr, fn(srcArr[i]))
+	}
 }
 
-type array struct {
-	obj any
+// Array 切片类型
+func Array[T any](arr []T) *arrayT[T] {
+	t := new(arrayT[T])
+	t.object = arr
+	t.result = make([]T, len(arr))
+	copy(t.result, arr)
+	return t
+}
+
+type arrayT[T any] struct {
+	object []T
+	result []T
 }
 
 // OriVal 获取原始值
-func (receiver *array) OriVal() any {
-	return receiver.obj
+func (receiver *arrayT[T]) OriVal() []T {
+	return receiver.object
 }
 
-// IsExist 判断切片是否存在某个值
-func (receiver *array) IsExist(value any) bool {
-	v := reflect.ValueOf(receiver.OriVal())
-	switch v.Kind() {
-	case reflect.Slice, reflect.Array:
-		for i := 0; i < v.Len(); i++ {
-			if v.Index(i).Interface() == value {
-				return true
+// Result sort和filter后的值
+func (receiver *arrayT[T]) Result() []T {
+	return receiver.result
+}
+
+// Sort 排序
+func (receiver *arrayT[T]) Sort(fn func(a, b T) bool) *arrayT[T] {
+	for i := 0; i < len(receiver.result); i++ {
+		for j := i + 1; j < len(receiver.result); j++ {
+			if fn(receiver.result[i], receiver.result[j]) {
+				receiver.result[i], receiver.result[j] = receiver.result[j], receiver.result[i]
 			}
 		}
-		return false
-	default:
-		panic(fmt.Errorf("不是切片或数组, 无法判断是否存在: %v", receiver.obj))
 	}
+	return receiver
 }
 
-// IsNil 判断切片是否为空
-func (receiver *array) IsNil(index int) bool {
-	v := reflect.ValueOf(receiver.OriVal())
-	switch v.Kind() {
-	case reflect.Slice, reflect.Array:
-		return v.Index(index).IsNil()
-	default:
-		panic(fmt.Errorf("不是切片或数组, 无法判断是否为空: %v", receiver.obj))
-	}
-
-}
-
-// Len 获取切片的长度
-func (receiver *array) Len() int {
-	v := reflect.ValueOf(receiver.OriVal())
-	switch v.Kind() {
-	case reflect.Slice, reflect.Array:
-		return v.Len()
-	default:
-		panic(fmt.Errorf("不是切片或数组, 无法获取长度: %v", receiver.obj))
-	}
-}
-
-// ForEach 遍历切片
-func (receiver *array) ForEach(fn func(index int)) {
-	v := reflect.ValueOf(receiver.OriVal())
-	switch v.Kind() {
-	case reflect.Slice, reflect.Array:
-		for i := 0; i < v.Len(); i++ {
-			fn(i)
+// Filter 过滤
+func (receiver *arrayT[T]) Filter(fn func(T) bool) *arrayT[T] {
+	var newArr = make([]T, 0)
+	for i := 0; i < len(receiver.result); i++ {
+		if fn(receiver.result[i]) {
+			newArr = append(newArr, receiver.result[i])
 		}
-	default:
-		panic(fmt.Errorf("不是切片或数组, 无法遍历: %v", receiver.obj))
 	}
+	receiver.result = newArr
+	return receiver
+}
+
+// Find 找到第一个符合条件的索引和值
+func (receiver *arrayT[T]) Find(fn func(T) bool) (int, T) {
+	for i := 0; i < len(receiver.object); i++ {
+		if fn(receiver.object[i]) {
+			return i, receiver.object[i]
+		}
+	}
+	var t T
+	return -1, t
 }

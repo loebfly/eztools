@@ -13,23 +13,23 @@ import (
 	使用说明:
 		1. ToString() 转换为字符串
 		2. ToJson() 转换为json字符串
-		3. ToObject(obj interface{}) 转换为对象
+		3. ToObject(obj any) 转换为对象
 */
-func Any(v interface{}) *object {
+func Any(v any) *object {
 	return &object{v}
 }
 
 type object struct {
-	obj interface{}
+	obj any
 }
 
 // OriVal 获取原始值
-func (receiver *object) OriVal() interface{} {
+func (receiver *object) OriVal() any {
 	return receiver.obj
 }
 
 // ToObject 转换为对象
-func (receiver *object) ToObject(obj interface{}) bool {
+func (receiver *object) ToObject(obj any) bool {
 	if receiver.OriVal() == nil {
 		return false
 	}

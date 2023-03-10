@@ -58,7 +58,7 @@ func CopyStructTo(dst any, src any) {
 	return
 }
 
-func copyStructRecursive(src, dst interface{}) {
+func copyStructRecursive(src, dst any) {
 	dstValue := reflect.ValueOf(dst).Elem()
 	srcValue := reflect.ValueOf(src).Elem()
 
