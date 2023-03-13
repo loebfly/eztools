@@ -46,6 +46,16 @@ func (receiver Str) ToBool(defaultBool ...bool) bool {
 	return num
 }
 
+// SplitForBool 数字字符串转换为bool数组, 当转换失败时有默认值返回第一个默认值否则返回false
+func (receiver Str) SplitForBool(sep string, defaultBool ...bool) []bool {
+	var result []bool
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToBool(defaultBool...))
+	}
+	return result
+}
+
 // ToUInt 数字字符串转换为uint, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToUInt(defaultUInt ...uint) uint {
 	num, err := strconv.ParseUint(receiver.OriVal(), 10, 64)
@@ -57,6 +67,16 @@ func (receiver Str) ToUInt(defaultUInt ...uint) uint {
 		}
 	}
 	return uint(num)
+}
+
+// SplitForUInt 数字字符串转换为uint数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForUInt(sep string, defaultUInt ...uint) []uint {
+	var result []uint
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToUInt(defaultUInt...))
+	}
+	return result
 }
 
 // ToUInt8 数字字符串转换为uint8, 当转换失败时有默认值返回第一个默认值否则返回0
@@ -72,6 +92,16 @@ func (receiver Str) ToUInt8(defaultUInt8 ...uint8) uint8 {
 	return uint8(num)
 }
 
+// SplitForUInt8 数字字符串转换为uint8数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForUInt8(sep string, defaultUInt8 ...uint8) []uint8 {
+	var result []uint8
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToUInt8(defaultUInt8...))
+	}
+	return result
+}
+
 // ToUInt16 数字字符串转换为uint16, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToUInt16(defaultUInt16 ...uint16) uint16 {
 	num, err := strconv.ParseUint(receiver.OriVal(), 10, 16)
@@ -83,6 +113,16 @@ func (receiver Str) ToUInt16(defaultUInt16 ...uint16) uint16 {
 		}
 	}
 	return uint16(num)
+}
+
+// SplitForUInt16 数字字符串转换为uint16数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForUInt16(sep string, defaultUInt16 ...uint16) []uint16 {
+	var result []uint16
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToUInt16(defaultUInt16...))
+	}
+	return result
 }
 
 // ToUInt32 数字字符串转换为uint32, 当转换失败时有默认值返回第一个默认值否则返回0
@@ -98,6 +138,16 @@ func (receiver Str) ToUInt32(defaultUInt32 ...uint32) uint32 {
 	return uint32(num)
 }
 
+// SplitForUInt32 数字字符串转换为uint32数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForUInt32(sep string, defaultUInt32 ...uint32) []uint32 {
+	var result []uint32
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToUInt32(defaultUInt32...))
+	}
+	return result
+}
+
 // ToUInt64 数字字符串转换为uint64, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToUInt64(defaultUInt64 ...uint64) uint64 {
 	num, err := strconv.ParseUint(receiver.OriVal(), 10, 64)
@@ -109,6 +159,16 @@ func (receiver Str) ToUInt64(defaultUInt64 ...uint64) uint64 {
 		}
 	}
 	return num
+}
+
+// SplitForUInt64 数字字符串转换为uint64数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForUInt64(sep string, defaultUInt64 ...uint64) []uint64 {
+	var result []uint64
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToUInt64(defaultUInt64...))
+	}
+	return result
 }
 
 // ToInt 数字字符串转换为int, 当转换失败时有默认值返回第一个默认值否则返回0
@@ -124,6 +184,16 @@ func (receiver Str) ToInt(defaultInt ...int) int {
 	return num
 }
 
+// SplitForInt 数字字符串转换为int数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForInt(sep string, defaultInt ...int) []int {
+	var result []int
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToInt(defaultInt...))
+	}
+	return result
+}
+
 // ToInt8 数字字符串转换为int8, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToInt8(defaultInt8 ...int8) int8 {
 	num, err := strconv.ParseInt(receiver.OriVal(), 10, 8)
@@ -135,6 +205,16 @@ func (receiver Str) ToInt8(defaultInt8 ...int8) int8 {
 		}
 	}
 	return int8(num)
+}
+
+// SplitForInt8 数字字符串转换为int8数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForInt8(sep string, defaultInt8 ...int8) []int8 {
+	var result []int8
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToInt8(defaultInt8...))
+	}
+	return result
 }
 
 // ToInt32 数字字符串转换为int32, 当转换失败时有默认值返回第一个默认值否则返回0
@@ -150,6 +230,16 @@ func (receiver Str) ToInt32(defaultInt32 ...int32) int32 {
 	return int32(num)
 }
 
+// SplitForInt32 数字字符串转换为int32数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForInt32(sep string, defaultInt32 ...int32) []int32 {
+	var result []int32
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToInt32(defaultInt32...))
+	}
+	return result
+}
+
 // ToInt64 数字字符串转换为int64, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToInt64(defaultInt64 ...int64) int64 {
 	num, err := strconv.ParseInt(receiver.OriVal(), 10, 64)
@@ -161,6 +251,16 @@ func (receiver Str) ToInt64(defaultInt64 ...int64) int64 {
 		}
 	}
 	return num
+}
+
+// SplitForInt64 数字字符串转换为int64数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForInt64(sep string, defaultInt64 ...int64) []int64 {
+	var result []int64
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToInt64(defaultInt64...))
+	}
+	return result
 }
 
 // ToFloat32 数字字符串转换为float32, 当转换失败时有默认值返回第一个默认值否则返回0
@@ -176,6 +276,16 @@ func (receiver Str) ToFloat32(defaultFloat32 ...float32) float32 {
 	return float32(num)
 }
 
+// SplitForFloat32 数字字符串转换为float32数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForFloat32(sep string, defaultFloat32 ...float32) []float32 {
+	var result []float32
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToFloat32(defaultFloat32...))
+	}
+	return result
+}
+
 // ToFloat64 数字字符串转换为float64, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToFloat64(defaultFloat64 ...float64) float64 {
 	num, err := strconv.ParseFloat(receiver.OriVal(), 64)
@@ -187,6 +297,16 @@ func (receiver Str) ToFloat64(defaultFloat64 ...float64) float64 {
 		}
 	}
 	return num
+}
+
+// SplitForFloat64 数字字符串转换为float64数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForFloat64(sep string, defaultFloat64 ...float64) []float64 {
+	var result []float64
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToFloat64(defaultFloat64...))
+	}
+	return result
 }
 
 // ToComplex64 数字字符串转换为complex64, 当转换失败时有默认值返回第一个默认值否则返回0
@@ -202,6 +322,16 @@ func (receiver Str) ToComplex64(defaultComplex64 ...complex64) complex64 {
 	return complex64(num)
 }
 
+// SplitForComplex64 数字字符串转换为complex64数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForComplex64(sep string, defaultComplex64 ...complex64) []complex64 {
+	var result []complex64
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToComplex64(defaultComplex64...))
+	}
+	return result
+}
+
 // ToComplex128 数字字符串转换为complex128, 当转换失败时有默认值返回第一个默认值否则返回0
 func (receiver Str) ToComplex128(defaultComplex128 ...complex128) complex128 {
 	num, err := strconv.ParseComplex(receiver.OriVal(), 128)
@@ -213,6 +343,16 @@ func (receiver Str) ToComplex128(defaultComplex128 ...complex128) complex128 {
 		}
 	}
 	return num
+}
+
+// SplitForComplex128 数字字符串转换为complex128数组, 当转换失败时有默认值返回第一个默认值否则返回0
+func (receiver Str) SplitForComplex128(sep string, defaultComplex128 ...complex128) []complex128 {
+	var result []complex128
+	strArr := strings.Split(receiver.OriVal(), sep)
+	for _, v := range strArr {
+		result = append(result, Str(v).ToComplex128(defaultComplex128...))
+	}
+	return result
 }
 
 /****************************/
