@@ -22,6 +22,11 @@ type mapT[K comparable, V any] struct {
 	object map[K]V
 }
 
+// Result sort、filter 等操作后的值
+func (receiver *mapT[K, V]) Result() map[K]V {
+	return receiver.object
+}
+
 // Keys 获取所有键
 func (receiver *mapT[K, V]) Keys() []K {
 	var keys = make([]K, 0)
@@ -61,5 +66,52 @@ func (receiver *mapT[K, V]) Filter(fn func(K, V) bool) *mapT[K, V] {
 		}
 	}
 	receiver.object = newMap
+	return receiver
+}
+
+// Sort 排序
+func (receiver *mapT[K, V]) Sort(fn func(a, b K) bool) *mapT[K, V] {
+	var keys = make([]K, 0)
+	for k := range receiver.object {
+		keys = append(keys, k)
+	}
+	for i := 0; i < len(keys); i++ {
+		for j := i + 1; j < len(keys); j++ {
+			if fn(keys[i], keys[j]) {
+				keys[i], keys[j] = keys[j], keys[i]
+			}
+		}
+	}
+	var newMap = make(map[K]V)
+	for _, k := range keys {
+		newMap[k] = receiver.object[k]
+	}
+	receiver.object = newMap
+	return receiver
+}
+
+// Contains 是否包含
+func (receiver *mapT[K, V]) Contains(k K) bool {
+	_, ok := receiver.object[k]
+	return ok
+}
+
+// Remove 删除
+func (receiver *mapT[K, V]) Remove(fn func(K, V) bool) *mapT[K, V] {
+	var newMap = make(map[K]V)
+	for k, v := range receiver.object {
+		if !fn(k, v) {
+			newMap[k] = v
+		}
+	}
+	receiver.object = newMap
+	return receiver
+}
+
+// Merge 合并
+func (receiver *mapT[K, V]) Merge(m map[K]V) *mapT[K, V] {
+	for k, v := range m {
+		receiver.object[k] = v
+	}
 	return receiver
 }
