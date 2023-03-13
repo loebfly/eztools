@@ -7,6 +7,16 @@ import (
 	"unicode"
 )
 
+// StringSplit 字符串分割, 返回指定类型的数组
+func StringSplit[T any](str string, sep string, fn func(subStr string) T) []T {
+	strArr := strings.Split(str, sep)
+	var result []T
+	for _, v := range strArr {
+		result = append(result, fn(v))
+	}
+	return result
+}
+
 // Str 字符串
 /*
 	使用说明:
