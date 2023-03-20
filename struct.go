@@ -80,10 +80,14 @@ func copyStructRecursive(src, dst any) {
 			for j := 0; j < srcField.Len(); j++ {
 				srcInterface := srcField.Index(j).Addr().Interface()
 				dstInterface := dstFieldByName.Index(j).Addr().Interface()
-				copyStructRecursive(srcInterface, dstInterface)
+				if dstFieldByName.Kind() == srcField.Kind() {
+					copyStructRecursive(srcInterface, dstInterface)
+				}
 			}
 		case reflect.Struct:
-			copyStructRecursive(srcField.Addr().Interface(), dstFieldByName.Addr().Interface())
+			if dstFieldByName.Kind() == srcField.Kind() {
+				copyStructRecursive(srcField.Addr().Interface(), dstFieldByName.Addr().Interface())
+			}
 		default:
 			if dstFieldByName.CanSet() && !isBlank(srcField) && dstFieldByName.Type() == srcField.Type() {
 				dstFieldByName.Set(srcField)
