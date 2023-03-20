@@ -76,18 +76,20 @@ func copyStructRecursive(src, dst any) {
 			if srcField.IsNil() {
 				continue
 			}
+			if dstFieldByName.Kind() != reflect.Slice {
+				continue
+			}
 			dstFieldByName.Set(reflect.MakeSlice(dstFieldByName.Type(), srcField.Len(), srcField.Cap()))
 			for j := 0; j < srcField.Len(); j++ {
 				srcInterface := srcField.Index(j).Addr().Interface()
 				dstInterface := dstFieldByName.Index(j).Addr().Interface()
-				if dstFieldByName.Kind() == srcField.Kind() {
-					copyStructRecursive(srcInterface, dstInterface)
-				}
+				copyStructRecursive(srcInterface, dstInterface)
 			}
 		case reflect.Struct:
-			if dstFieldByName.Kind() == srcField.Kind() {
-				copyStructRecursive(srcField.Addr().Interface(), dstFieldByName.Addr().Interface())
+			if dstFieldByName.Kind() != reflect.Struct {
+				continue
 			}
+			copyStructRecursive(srcField.Addr().Interface(), dstFieldByName.Addr().Interface())
 		default:
 			if dstFieldByName.CanSet() && !isBlank(srcField) && dstFieldByName.Type() == srcField.Type() {
 				dstFieldByName.Set(srcField)
