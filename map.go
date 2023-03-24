@@ -69,27 +69,6 @@ func (receiver *mapT[K, V]) Filter(fn func(K, V) bool) *mapT[K, V] {
 	return receiver
 }
 
-// Sort 排序
-func (receiver *mapT[K, V]) Sort(fn func(a, b K) bool) *mapT[K, V] {
-	var keys = make([]K, 0)
-	for k := range receiver.object {
-		keys = append(keys, k)
-	}
-	for i := 0; i < len(keys); i++ {
-		for j := i + 1; j < len(keys); j++ {
-			if fn(keys[i], keys[j]) {
-				keys[i], keys[j] = keys[j], keys[i]
-			}
-		}
-	}
-	var newMap = make(map[K]V)
-	for _, k := range keys {
-		newMap[k] = receiver.object[k]
-	}
-	receiver.object = newMap
-	return receiver
-}
-
 // Contains 是否包含
 func (receiver *mapT[K, V]) Contains(k K) bool {
 	_, ok := receiver.object[k]
