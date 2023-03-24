@@ -1,10 +1,10 @@
 package eztools
 
 // ConvArray 切片类型转换
-func ConvArray[SRC, DST any](srcArr []SRC, dstArr []DST, fn func(src SRC) DST) {
-	dstArr = make([]DST, 0)
+func ConvArray[SRC, DST any](srcArr []SRC, dstArr *[]DST, fn func(src SRC) DST) {
+	*dstArr = make([]DST, len(srcArr))
 	for i := 0; i < len(srcArr); i++ {
-		dstArr = append(dstArr, fn(srcArr[i]))
+		(*dstArr)[i] = fn(srcArr[i])
 	}
 }
 
