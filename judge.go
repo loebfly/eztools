@@ -13,16 +13,17 @@ func (receiver judge[T]) If(condition bool, trueVal T, falseVal T) T {
 	return falseVal
 }
 
-func (receiver judge[T]) IfThen(condition bool, trueVal T) T {
-	if condition {
-		return trueVal
-	}
-	return any(nil).(T)
-}
-
-func (receiver judge[T]) IfThenElse(condition bool, trueVal T, falseVal T) T {
+func If[T any](condition bool, trueVal T, falseVal T) T {
 	if condition {
 		return trueVal
 	}
 	return falseVal
+}
+
+func IfCall(condition bool, trueFn func(), falseFn func()) {
+	if condition {
+		trueFn()
+	} else {
+		falseFn()
+	}
 }
