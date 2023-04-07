@@ -1,5 +1,7 @@
 package eztools
 
+import "reflect"
+
 // ConvArray 切片类型转换
 func ConvArray[SRC, DST any](srcArr []SRC, dstArr *[]DST, fn func(src SRC) DST) {
 	*dstArr = make([]DST, len(srcArr))
@@ -9,14 +11,14 @@ func ConvArray[SRC, DST any](srcArr []SRC, dstArr *[]DST, fn func(src SRC) DST) 
 }
 
 // Array 切片类型
-func Array[T comparable](arr []T) *arrayT[T] {
+func Array[T any](arr []T) *arrayT[T] {
 	t := new(arrayT[T])
 	t.object = make([]T, len(arr))
 	copy(t.object, arr)
 	return t
 }
 
-type arrayT[T comparable] struct {
+type arrayT[T any] struct {
 	object []T
 }
 
@@ -63,7 +65,7 @@ func (receiver *arrayT[T]) Find(fn func(T) bool) (int, T) {
 // Contains 是否包含
 func (receiver *arrayT[T]) Contains(t T) bool {
 	for i := 0; i < len(receiver.object); i++ {
-		if receiver.object[i] == t {
+		if reflect.DeepEqual(receiver.object[i], t) {
 			return true
 		}
 	}
@@ -73,7 +75,7 @@ func (receiver *arrayT[T]) Contains(t T) bool {
 // IndexOf 获取索引
 func (receiver *arrayT[T]) IndexOf(t T) int {
 	for i := 0; i < len(receiver.object); i++ {
-		if receiver.object[i] == t {
+		if reflect.DeepEqual(receiver.object[i], t) {
 			return i
 		}
 	}
@@ -83,7 +85,7 @@ func (receiver *arrayT[T]) IndexOf(t T) int {
 // LastIndexOf 获取最后一个索引
 func (receiver *arrayT[T]) LastIndexOf(t T) int {
 	for i := len(receiver.object) - 1; i >= 0; i-- {
-		if receiver.object[i] == t {
+		if reflect.DeepEqual(receiver.object[i], t) {
 			return i
 		}
 	}
@@ -93,7 +95,7 @@ func (receiver *arrayT[T]) LastIndexOf(t T) int {
 // Remove 删除
 func (receiver *arrayT[T]) Remove(t T) *arrayT[T] {
 	for i := 0; i < len(receiver.object); i++ {
-		if receiver.object[i] == t {
+		if reflect.DeepEqual(receiver.object[i], t) {
 			receiver.object = append(receiver.object[:i], receiver.object[i+1:]...)
 			i--
 		}
